@@ -1,4 +1,4 @@
-// vert similar to ch.3 - ex.10, but with a switch structure and slightly different output
+// very similar to ch.3 - ex.10, but with a switch structure and slightly different output
 #include "../std_lib_facilities.h"
 
 int main() {
