@@ -1,5 +1,10 @@
 // very similar to ch.3 - ex.9, but with vector structure, more numbers and 2-way spell<->digit
-#include "../std_lib_facilities.h"
+// #include "../std_lib_facilities.h"
+
+#include<iostream>
+#include<string>
+#include<vector>
+using namespace std;
 
 int main(){
     string spelled_input;
