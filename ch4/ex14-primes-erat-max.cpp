@@ -1,15 +1,21 @@
 
-// Find primes using "Sieve of Erastothenes" method
+// Find primes using "Sieve of Erastothenes" method 
 #include<iostream>
 #include<vector>
 using namespace std;
 
 int main(){
-    constexpr int max{100};             // last number in check list              
+    int max;    // last number to test (set by user)
+
     int current{0}, prime{2}, idx{0};   // Initialize variables
     bool stop = false;                  // to stop outer loop
+
+    cout << "\nPRIME NUMBERS (Sieve of Erastothenes)\n";
+    cout << "Enter an upper limit number: ";
+    cin >> max;
+    cout << "\nThe prime numbers from 1 to " << max << " are: ";
+
     vector<char> check_list(max);       // list with check values (vector of bools not possible)
-    
     fill (check_list.begin(),check_list.end(),'u'); // u: unmarked, p:prime, c:composite(not prime)    
     check_list[0] = 'c';   // 1 is not prime
     check_list[1] = 'p';   // 2 is prime
