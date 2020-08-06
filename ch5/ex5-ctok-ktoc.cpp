@@ -4,16 +4,16 @@ double ctok(double c)       // converts Celsius to Kelvin
 {
     // pre-condition: value must be higher than absolute zero (-273.15 C)
     if (c<-273.15) error("Impossible temperature (too low)"); 
-    int k = c + 273.15;
+    double k = c + 273.15;
     return k;
 }
 
-double ktoc(double k)       // converts Celsius to Kelvin
+double ktoc(double k)       // converts Kelvin to Celsius
 {
     // pre-condition: value must be higher than absolute zero (0 K)
     if (k<0) error("Impossible temperature (too low)"); 
-    int c = k - 273.15;
-    return k;
+    double c = k - 273.15;
+    return c;
 }
 
 int main()

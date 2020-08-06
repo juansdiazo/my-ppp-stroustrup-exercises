@@ -2,7 +2,8 @@
 
 double ctok(double c)       // converts Celsius to Kelvin
 {
-    int k = c + 273.15;
+    // int k = c + 273.15;     // error 0: change of data type (logic)
+    double k = c + 273.15;
     // return int           // error 1: invalid type of return (syntax)
     return k;
 }

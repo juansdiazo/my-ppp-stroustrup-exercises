@@ -2,7 +2,7 @@
 
 double ctok(double c)       // converts Celsius to Kelvin
 {
-    int k = c + 273.15;
+    double k = c + 273.15;
     return k;
 }
 
