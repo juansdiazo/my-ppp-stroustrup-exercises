@@ -17,5 +17,5 @@ int main(){
         cout << series[i] << " ";
         nsum += series[i]; 
     }
-    cout << ") is " << nsum << " " << series.size() << " .\n";
+    cout << ") is " << nsum ".\n";
 }
