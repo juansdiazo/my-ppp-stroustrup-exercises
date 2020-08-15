@@ -115,6 +115,8 @@ double primary()
         if (t.kind != ')') error("')' expected"); // error 1: missing "
         return d;
     }
+    case 'x':            // added to exit without errors
+        exit(1);
     case '8':            // we use '8' to represent a number
         return t.value;  // return the number's value
     default:
@@ -196,16 +198,16 @@ try
             ts.putback(t);
         val = expression();
     }
-    keep_window_open();
+    //keep_window_open();
 }
 catch (exception& e) {
     cerr << "error: " << e.what() << '\n';
-    keep_window_open();
+    //keep_window_open();
     return 1;
 }
 catch (...) {
     cerr << "Oops: unknown exception!\n";
-    keep_window_open();
+    //keep_window_open();
     return 2;
 }
 
