@@ -1,8 +1,14 @@
 #include "../std_lib_facilities.h"
 
+const char number='8';      // t.kind == number means that t is a number Token
+const char quit='q';        // t.kind == quit means that t is a quit Token
+const char print=';';       // t.kind == print means that t is a print Token
+const string prompt=">";    // used to indicate prompt for user input
+const string result="=";    // used to indicate that what follow is a result
+
 //------------------------------------------------------------------------------
 
-class Token{ // error 2: syntax error lass
+class Token{ // 
 public:
     char kind;        // what kind of token
     double value;     // for numbers: a value 
@@ -16,9 +22,10 @@ public:
 
 class Token_stream {
 public:
-    Token_stream();   // make a Token_stream that reads from cin
-    Token get();      // get a Token (get() is defined elsewhere)
-    void putback(Token t);    // put a Token back
+    Token_stream();             // make a Token_stream that reads from cin
+    Token get();                // get a Token 
+    void putback(Token t);      // put a Token back
+    void ignore(char c);        // discard characters up to and including a c
 private:
     bool full;        // is there a Token in the buffer?
     Token buffer;     // here is where we keep a Token put back using putback()
@@ -45,10 +52,27 @@ void Token_stream::putback(Token t)
 
 //------------------------------------------------------------------------------
 
-Token Token_stream::get() // error 3: Missing class and ::
+void Token_stream::ignore(char c)
+    // c represents the kind of Token
 {
-    if (full) {       // do we already have a Token ready?
-        // remove token from buffer
+    // first look in buffer:
+    if (full && c==buffer.kind){
+        full = false;
+        return;
+    } 
+    full = false;
+
+    // now search input:
+    char ch=0;
+    while (cin>>ch)
+        if (ch==c) return;
+}
+
+//------------------------------------------------------------------------------
+
+Token Token_stream::get() 
+{
+    if (full) {       // check if we have a Token ready
         full = false;
         return buffer;
     }
@@ -57,18 +81,24 @@ Token Token_stream::get() // error 3: Missing class and ::
     cin >> ch;    // note that >> skips whitespace (space, newline, tab, etc.)
 
     switch (ch) {
-    case ';':    // for "print"
-    case 'q':    // for "quit"
-    case '(': case ')': case '+': case '-': case '*': case '/':
-        return Token{ch};        // let each character represent itself
-    case '.':
+    case print:    
+    case quit:    
+    case '(': 
+    case ')': 
+    case '+': 
+    case '-': 
+    case '*': 
+    case '/': 
+    case '%':
+        return Token{ch};   // let each character represent itself
+    case '.':               // a floating point literal can start with a dot
     case '0': case '1': case '2': case '3': case '4':
-    case '5': case '6': case '7': case '8': case '9': // logic error 3: missing 8
+    case '5': case '6': case '7': case '8': case '9': // numeric literal
     {
         cin.putback(ch);         // put digit back into the input stream
         double val;
         cin >> val;              // read a floating-point number
-        return Token{'8', val};   // let '8' represent "a number"
+        return Token{number, val};   
     }
     default:
         error("Bad token");
@@ -97,7 +127,7 @@ double primary()
         if (t.kind != ')') error("')' expected"); 
         return d;
     }
-    case '8':            // we use '8' to represent a number
+    case number:            
         return t.value;  // return the number's value
     case '-':           // For negative unary numbers  
         return - primary();   
@@ -121,12 +151,20 @@ double term()
         case '*':
             left *= primary();
             t = ts.get();
-            break; // logic error 1: no break
+            break; 
         case '/':
         {
             double d = primary();
             if (d == 0) error("divide by zero");
             left /= d;
+            t = ts.get();
+            break;
+        }
+        case '%':
+        {
+            double d = primary();
+            if (d == 0) error("divide by zero");
+            left = fmod(left,d);
             t = ts.get();
             break;
         }
@@ -142,7 +180,7 @@ double term()
 // deal with + and -
 double expression()
 {
-    double left = term();      // read and evaluate a Term --> error 4: missing ')'
+    double left = term();      // read and evaluate a Term 
     Token t = ts.get();        // get the next token from token stream
 
     while (true) {
@@ -152,7 +190,7 @@ double expression()
             t = ts.get();
             break;
         case '-':
-            left -= term();    // evaluate Term and subtract --> Logic error 2 +
+            left -= term();    // evaluate Term and subtract 
             t = ts.get();
             break;
         default:
@@ -164,27 +202,47 @@ double expression()
 
 //------------------------------------------------------------------------------
 
+void clean_up_mess()    
+{               
+    ts.ignore(print);
+}
+
+//------------------------------------------------------------------------------
+
+void calculate()    // expression evaluation loop
+{               
+    while (cin)
+    try {
+        cout << prompt;    
+        Token t = ts.get();
+        while (t.kind == print) t=ts.get(); // first discard all "prints"      
+        if (t.kind == quit) return;
+        ts.putback(t);
+        cout << result << expression() << '\n';
+    }
+    catch (exception& e) {
+        cerr << e.what() << '\n';
+        clean_up_mess();
+    }
+}
+
+//------------------------------------------------------------------------------
+
+void instructions()
+{
+    cout << "SIMPLE CALCULATOR\n\n";
+    cout << "Please enter expressions using floating-point numbers and end with ;.\n";
+    cout << "The following operators are available: + - * / %, and () as well.\n";
+    cout << "To quit type q, expression example: 5+8*(3+3);\n";
+}
+
+//------------------------------------------------------------------------------
+
 int main()
 try
-{
-    double val = 0; 
-    /*cout << "SIMPLE CALCULATOR\n\n";
-    cout << "Please enter expressions using floating-point numbers and end with ;.\n";
-    cout << "The following operators are available: + - *, and parentheses as well.\n";
-    cout << "To quit press x, expression example: 5+8*(3+3);\n";
-    */
-    while (cin) {
-        cout << ">";    // print prompt 
-        Token t = ts.get();
-
-        while (t.kind == ';') t=ts.get();       // eat ';'
-        if (t.kind == 'q') {
-            keep_window_open();
-            return 0;
-        }
-        ts.putback(t);
-        cout << "= " << expression() << '\n';
-    }
+{   
+    //instructions();
+    calculate();
     keep_window_open();
     return 0;
 }
