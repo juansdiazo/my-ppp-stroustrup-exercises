@@ -1,4 +1,7 @@
-#include "../std_lib_facilities.h"
+#include<iostream>
+#include<vector>
+
+using namespace std;
 
 void print(const string &label, const vector<int> &myvector);
 
@@ -18,7 +21,7 @@ void print(const string &label, const vector<int> &myvector){
 }
 
 // generates a fibonacci-like sequence of n numbers
-// given the first two elements of the series x and y
+// given the first (x) and the second (y) elements of the sequence
 void fibonacci(int x, int y, vector<int> &v, int n){
     v.push_back(x);
     v.push_back(y);    
