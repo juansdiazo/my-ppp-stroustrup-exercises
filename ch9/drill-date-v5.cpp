@@ -1,4 +1,4 @@
-// Date version 4. From 9.7.1
+// Date version 5. From 9.7.4
 #include"../std_lib_facilities.h"
 
 // enum class Month --> error when printing the month as implicit conversion to int is not allowed
@@ -10,10 +10,12 @@ class Date {
     public:
         Date(int y, Month m, int d);    // check for valid date and initialize
         
-        int year() { return y; }
-        Month month() { return m; }
-        int day() { return d; }
+        // const members: can't modify the object
+        int year() const { return y; }
+        Month month() const { return m; }
+        int day() const { return d; }
 
+        // non-const members: can modify the object
         void add_day(int n);            // increase the Date by n days
     private:
         Month m;
@@ -36,7 +38,7 @@ void Date::add_day(int n) {
     d+=n;    // increase dd by n days
 }
 
-ostream& operator<< (ostream& os, Date& d){
+ostream& operator<< (ostream& os, const Date& d){
     return os << '(' << d.year()
                 << ',' << d.month()
                 << ',' << d.day() << ')';
