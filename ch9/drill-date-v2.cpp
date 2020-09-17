@@ -9,7 +9,7 @@ struct Date {
 
 Date::Date(int yy, int mm, int dd) {
     // Check that (y,m,d) is a valid date: year: [-4000, 4000], month [1,12], day [1,31] 
-    if ((yy>-4001 && yy<4001) && (mm>0 && mm<12) && (dd>0 && dd<32)){
+    if ((yy>-4001 && yy<4001) && (mm>0 && mm<13) && (dd>0 && dd<32)){
     // if it is, use it to initialize dd
         y = yy;
         m = mm;

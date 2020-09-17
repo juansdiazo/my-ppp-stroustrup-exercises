@@ -9,7 +9,7 @@ struct Date {
 
 void init_day(Date& dd, int y, int m, int d) {
     // Check that (y,m,d) is a valid date: year: [-4000, 4000], month [1,12], day [1,31] 
-    if ((y>-4001 && y<4001) && (m>0 && m<12) && (d>0 && d<32)){
+    if ((y>-4001 && y<4001) && (m>0 && m<13) && (d>0 && d<32)){
     // if it is, use it to initialize dd
         dd.y = y;
         dd.m = m;
