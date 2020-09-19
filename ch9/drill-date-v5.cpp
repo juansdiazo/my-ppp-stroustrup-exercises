@@ -1,8 +1,8 @@
 // Date version 5. From 9.7.4
 #include"../std_lib_facilities.h"
 
-// enum class Month --> error when printing the month as implicit conversion to int is not allowed
-enum Month{
+// enum Month --> implicitly coverts to int
+enum class Month{
     jan=1, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec
 };
 
@@ -40,7 +40,7 @@ void Date::add_day(int n) {
 
 ostream& operator<< (ostream& os, const Date& d){
     return os << '(' << d.year()
-                << ',' << d.month()
+                << ',' << int(d.month())    // must explicitly convert to int as "enum class Month" was used 
                 << ',' << d.day() << ')';
 }
 
