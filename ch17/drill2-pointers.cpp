@@ -43,12 +43,20 @@ int main(){
     p2 = new int[10];
 
     // 12. Copy values from the array pointed to by p1 into the array pointed to by p2
+    cout << "copy with arrays:  ";
     for (int i=0; i<10; i++){
         p2[i] = p1[i];
-        cout << p2[i] << " ";
+        cout << p2[i] << " "; // print to check
     }
     cout << endl;
-    
+
+    // 13. Repeat 10-12 using a vector rather than an array
+    vector<int> v1{1,2,4,8,16,32,64,128,256,512};   // 10
+    vector<int> v2;                                 // 11
+    v2=v1;                                          // 12
+    cout << "copy with vectors: ";
+    for(int i:v2) cout << i << " ";                 // print to check
+    cout << endl;
     return 0;
 }
 
